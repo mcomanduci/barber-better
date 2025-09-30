@@ -61,7 +61,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
               </div>
               <div className="flex flex-col items-center justify-center border-l-2 border-solid px-5">
                 <p className="text-sm">
-                  {format(booking.date, "MM", { locale: ptBR })}
+                  {format(booking.date, "MMMM", { locale: ptBR })}
                 </p>
                 <p className="text-2xl">
                   {format(booking.date, "dd", { locale: ptBR })}

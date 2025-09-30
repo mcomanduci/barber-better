@@ -18,7 +18,7 @@ type ServiceWithNumberPrice = Omit<BarbershopService, "price"> & {
 
 interface ServiceItemProps {
   service: ServiceWithNumberPrice;
-  barbershop: Pick<Barbershop, "name">;
+  barbershop: Pick<Barbershop, "name" | "phones">;
 }
 
 const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
