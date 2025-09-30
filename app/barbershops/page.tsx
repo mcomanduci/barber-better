@@ -5,27 +5,29 @@ import Header from "@/components/header";
 import Search from "@/components/search";
 
 interface BarbershopPageProps {
-  searchParams: { title?: string; service?: string };
+  searchParams: Promise<{ title?: string; service?: string }>;
 }
 
 const BarbershopPage = async ({ searchParams }: BarbershopPageProps) => {
+  const resolvedSearchParams = await searchParams;
+
   const barbershops = await db.barbershop.findMany({
     where: {
       OR: [
-        searchParams.title
+        resolvedSearchParams.title
           ? {
               name: {
-                contains: searchParams.title,
+                contains: resolvedSearchParams.title,
                 mode: "insensitive",
               },
             }
           : {},
-        searchParams.service
+        resolvedSearchParams.service
           ? {
               services: {
                 some: {
                   name: {
-                    contains: searchParams.service,
+                    contains: resolvedSearchParams.service,
                     mode: "insensitive",
                   },
                 },
@@ -45,7 +47,8 @@ const BarbershopPage = async ({ searchParams }: BarbershopPageProps) => {
 
       <div className="px-5">
         <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
-          Resultados para &quot;{searchParams?.title || searchParams?.service}
+          Resultados para &quot;
+          {resolvedSearchParams?.title || resolvedSearchParams?.service}
           &quot;
         </h2>
         <div>

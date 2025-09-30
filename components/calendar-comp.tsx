@@ -65,24 +65,24 @@ const CalendarComp = ({
 }: ServiceItemProps) => {
   const { data } = authClient.useSession();
   const [selectedDay, setSelectedDay] = React.useState<Date>(
-    startOfDay(new Date())
+    startOfDay(new Date()),
   );
   const [selectedTime, setSelectedTime] = React.useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [dayBookings, setDayBookings] = React.useState<Booking[]>([]);
   const [isLoadingBookings, setIsLoadingBookings] = React.useState(false);
 
   const getTimeList = (bookings: Booking[]) => {
     const bookedTimes = bookings.map((booking) =>
-      format(booking.date, "HH:mm")
+      format(booking.date, "HH:mm"),
     );
     const now = new Date();
     const isToday =
       format(selectedDay, "yyyy-MM-dd") === format(now, "yyyy-MM-dd");
 
     let availableTimes = TIME_LIST.filter(
-      (time) => !bookedTimes.includes(time)
+      (time) => !bookedTimes.includes(time),
     );
 
     if (isToday) {
@@ -148,7 +148,6 @@ const CalendarComp = ({
     try {
       await createBooking({
         serviceId: service.id,
-        userId: data.user.id,
         date: newDate,
       });
       toast.success("Reserva criada com sucesso!");
@@ -182,11 +181,11 @@ const CalendarComp = ({
             Array.from({ length: 6 }).map((_, index) => (
               <Skeleton
                 key={index}
-                className="h-9 w-17 min-w-17 rounded-full flex-shrink-0"
+                className="h-9 w-17 min-w-17 flex-shrink-0 rounded-full"
               />
             ))
           ) : getTimeList(dayBookings).length === 0 ? (
-            <p className="text-sm text-gray-400 h-9 flex items-center mx-auto">
+            <p className="mx-auto flex h-9 items-center text-sm text-gray-400">
               Não há horários disponíveis neste dia.
             </p>
           ) : (
