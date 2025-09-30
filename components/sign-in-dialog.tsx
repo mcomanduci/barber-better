@@ -4,8 +4,15 @@ import { Button } from "./ui/button";
 import { signIn } from "@/lib/auth-client";
 import Image from "next/image";
 
-const SignInDialog = () => {
-  const handleLoginWithGoogleClick = () => signIn("google");
+interface SignInDialogProps {
+  onSignInStart?: () => void;
+}
+
+const SignInDialog = ({ onSignInStart }: SignInDialogProps) => {
+  const handleLoginWithGoogleClick = () => {
+    onSignInStart?.();
+    signIn("google");
+  };
 
   return (
     <>

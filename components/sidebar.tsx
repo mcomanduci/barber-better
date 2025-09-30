@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Sheet,
   SheetClose,
@@ -22,8 +22,18 @@ import SignInDialog from "./sign-in-dialog";
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const { data, isPending } = authClient.useSession();
+  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+  const [isSigningIn, setIsSigningIn] = useState(false);
 
   const handleLogoutClick = () => signOut();
+
+  // Close dialog when user successfully signs in
+  useEffect(() => {
+    if (data?.user && isSigningIn) {
+      setIsLoginDialogOpen(false);
+      setIsSigningIn(false);
+    }
+  }, [data?.user, isSigningIn]);
 
   return (
     <Sheet>
@@ -32,7 +42,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
         <SheetHeader className="p-0">
           <SheetTitle className="text-left">Menu</SheetTitle>
         </SheetHeader>
-        {isPending ? (
+        {isPending || (isSigningIn && !data?.user) ? (
           <div className="item-center flex gap-3 border-b border-solid py-5">
             <Skeleton className="h-12 w-12 rounded-full" />
             <div className="flex min-w-0 flex-col justify-center space-y-2">
@@ -66,14 +76,17 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
         ) : (
           <div className="flex items-center justify-between gap-3 border-b border-solid py-5">
             <h2 className="font-bold">Olá, faça seu login!</h2>
-            <Dialog>
+            <Dialog
+              open={isLoginDialogOpen}
+              onOpenChange={setIsLoginDialogOpen}
+            >
               <DialogTrigger asChild>
                 <Button size="icon">
                   <LogInIcon />
                 </Button>
               </DialogTrigger>
               <DialogContent className="w-[90%]">
-                <SignInDialog />
+                <SignInDialog onSignInStart={() => setIsSigningIn(true)} />
               </DialogContent>
             </Dialog>
           </div>
