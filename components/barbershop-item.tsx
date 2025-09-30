@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { StarIcon } from "lucide-react";
 import { Badge } from "./ui/badge";
+
 import Link from "next/link";
 
 interface BarbershopItemProps {
