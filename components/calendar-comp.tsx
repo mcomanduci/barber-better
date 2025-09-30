@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import { ptBR } from "date-fns/locale";
 import { Button } from "./ui/button";
-import { Card, CardContent } from "./ui/card";
 import { Barbershop, BarbershopService, Booking } from "@prisma/client";
 import { format } from "date-fns/format";
 import {
@@ -15,11 +14,12 @@ import {
 } from "./ui/sheet";
 import { createBooking } from "@/actions/create-booking";
 import { authClient } from "@/lib/auth-client";
-import { set, setDay, startOfDay } from "date-fns";
+import { set, startOfDay } from "date-fns";
 import { toast } from "sonner";
 import { getBookings } from "@/actions/get-bookings";
 import { Calendar } from "./ui/calendar";
 import { Skeleton } from "./ui/skeleton";
+import BookingSummary from "./booking-summary";
 
 // Create a type for serialized service with number price instead of Decimal
 type ServiceWithNumberPrice = Omit<BarbershopService, "price"> & {
@@ -28,7 +28,7 @@ type ServiceWithNumberPrice = Omit<BarbershopService, "price"> & {
 
 interface ServiceItemProps {
   service: ServiceWithNumberPrice;
-  barbershop: Pick<Barbershop, "name">;
+  barbershop: Pick<Barbershop, "name" | "phones">;
   onSheetClose?: () => void;
 }
 
@@ -205,38 +205,12 @@ const CalendarComp = ({
 
       {selectedTime && (
         <div className="p-5">
-          <Card>
-            <CardContent className="space-y-3 p-3">
-              <div className="flex items-center justify-between">
-                <h2 className="font-bold">{service.name}</h2>
-                <p className="font-bold">
-                  {Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(Number(service.price))}
-                </p>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <h2 className="text-sm text-gray-400">Data</h2>
-                <p className="text-sm">
-                  {format(selectedDay, "dd 'de' MMMM", {
-                    locale: ptBR,
-                  })}
-                </p>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <h2 className="text-sm text-gray-400">Horário</h2>
-                <p className="text-sm">{selectedTime}</p>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <h2 className="text-sm text-gray-400">Barbearia</h2>
-                <p className="text-sm font-bold">{barbershop.name}</p>
-              </div>
-            </CardContent>
-          </Card>
+          <BookingSummary
+            service={service}
+            selectedDay={selectedDay}
+            selectedTime={selectedTime}
+            barbershop={barbershop}
+          />
         </div>
       )}
       <SheetFooter className="mt-5 px-5">

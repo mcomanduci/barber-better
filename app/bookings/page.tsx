@@ -51,13 +51,13 @@ const Page = async () => {
   return (
     <>
       <Header />
-      <div className="space-y-5 p-5">
+      <div className="space-y-3 p-5">
         <h1 className="text-xl font-bold">Agendamentos</h1>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {confirmedBookings.map((booking) => (
             <BookingItem key={booking.id} booking={booking} />
           ))}
-          <p className="pt-2 text-xl font-bold">Concluídos</p>
+          <p className="text-xl font-bold">Concluídos</p>
           {concludedBookings.map((booking) => (
             <BookingItem key={booking.id} booking={booking} />
           ))}
