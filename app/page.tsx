@@ -11,20 +11,42 @@ import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/server";
 
 const Home = async () => {
+  const user = await getCurrentUser();
   const barbershops = await db.barbershop.findMany({});
   const popularBarbershops = await db.barbershop.findMany({
     orderBy: {
       name: "desc",
     },
   });
-  const user = await getCurrentUser();
+  const confirmedBookings = (await getCurrentUser())
+    ? await db.booking.findMany({
+        where: {
+          userId: user?.id,
+          date: {
+            gte: new Date(), // Only get bookings from today onwards
+          },
+        },
+        include: {
+          service: {
+            include: {
+              barbershop: true,
+            },
+          },
+        },
+        orderBy: {
+          date: "asc",
+        },
+      })
+    : [];
 
   return (
     <>
       <Header />
 
       <div className="p-5">
-        <h2 className="text-xl font-bold">Olá, {user?.name}!</h2>
+        <h2 className="text-xl font-bold">
+          Olá, {user?.name ? user.name : "Visitante"}!
+        </h2>
         <p>Segunda-feira, 22 de Setembro</p>
 
         <div className="mt-6">
@@ -62,7 +84,18 @@ const Home = async () => {
           />
         </div>
 
-        <BookingItem />
+        {user && confirmedBookings.length > 0 && (
+          <>
+            <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
+              Agendamentos
+            </h2>
+            <div className="-mx-4 flex gap-3 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {confirmedBookings.map((booking) => (
+                <BookingItem key={booking.id} booking={booking} />
+              ))}
+            </div>
+          </>
+        )}
 
         <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
           Recomendados

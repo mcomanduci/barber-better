@@ -105,14 +105,17 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
             variant="ghost"
             className="justify-start gap-2 px-4"
             size="lg"
+            asChild
           >
-            <Image
-              src="/calendar.svg"
-              alt="Agendamentos"
-              width={18}
-              height={18}
-            />
-            Agendamentos
+            <Link href="/bookings">
+              <Image
+                src="/calendar.svg"
+                alt="Agendamentos"
+                width={18}
+                height={18}
+              />
+              Agendamentos
+            </Link>
           </Button>
         </div>
         <div className="flex flex-col gap-2 border-b border-solid pb-5">
