@@ -4,13 +4,18 @@ import BarbershopItem from "@/components/barbershop-item";
 import db from "@/lib/prisma";
 import { Barbershop } from "@prisma/client";
 import { quickSearchOptions } from "@/constants/search";
-import BookingItem from "@/components/booking-item";
 import Search from "@/components/search";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/server";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import dynamic from "next/dynamic";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const BookingItem = dynamic(() => import("@/components/booking-item"), {
+  loading: () => <Skeleton className="h-6 w-6" />,
+});
 
 const Home = async () => {
   const user = await getCurrentUser();

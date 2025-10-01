@@ -2,9 +2,14 @@ import Header from "@/components/header";
 import React from "react";
 import db from "@/lib/prisma";
 import { getCurrentUserOptional } from "@/server/users";
-import BookingItem from "@/components/booking-item";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
+import dynamic from "next/dynamic";
+
+const BookingItem = dynamic(() => import("@/components/booking-item"), {
+  loading: () => <Skeleton className="h-6 w-6" />,
+});
 
 const Page = async () => {
   const session = await getCurrentUserOptional();
