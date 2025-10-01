@@ -2,8 +2,13 @@ import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { MenuIcon } from "lucide-react";
-import Sidebar from "./sidebar";
+import dynamic from "next/dynamic";
+import { Skeleton } from "./ui/skeleton";
 import Link from "next/link";
+
+const Sidebar = dynamic(() => import("./sidebar"), {
+  loading: () => <Skeleton className="h-6 w-6" />,
+});
 
 const Header = () => {
   return (

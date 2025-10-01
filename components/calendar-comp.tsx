@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import { ptBR } from "date-fns/locale";
 import { Button } from "./ui/button";
 import { Barbershop, BarbershopService, Booking } from "@prisma/client";
@@ -20,6 +20,7 @@ import { getBookings } from "@/actions/get-bookings";
 import { Calendar } from "./ui/calendar";
 import { Skeleton } from "./ui/skeleton";
 import BookingSummary from "./booking-summary";
+import { useRouter } from "next/navigation";
 
 // Create a type for serialized service with number price instead of Decimal
 type ServiceWithNumberPrice = Omit<BarbershopService, "price"> & {
@@ -63,6 +64,7 @@ const CalendarComp = ({
   barbershop,
   onSheetClose,
 }: ServiceItemProps) => {
+  const router = useRouter();
   const { data } = authClient.useSession();
   const [selectedDay, setSelectedDay] = React.useState<Date>(
     startOfDay(new Date()),
@@ -150,7 +152,12 @@ const CalendarComp = ({
         serviceId: service.id,
         date: newDate,
       });
-      toast.success("Reserva criada com sucesso!");
+      toast.success("Reserva criada com sucesso!", {
+        action: {
+          label: "Ver reservas",
+          onClick: () => router.push("/bookings"),
+        },
+      });
       resetCalendarState();
       onSheetClose?.();
     } catch (error) {

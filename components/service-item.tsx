@@ -6,10 +6,11 @@ import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Sheet } from "./ui/sheet";
-import CalendarComp from "./calendar-comp";
+import dynamic from "next/dynamic";
 import { Dialog, DialogContent } from "./ui/dialog";
 import { authClient } from "@/lib/auth-client";
 import SignInDialog from "./sign-in-dialog";
+import { Skeleton } from "./ui/skeleton";
 
 // Create a type for serialized service with number price instead of Decimal
 type ServiceWithNumberPrice = Omit<BarbershopService, "price"> & {
@@ -20,6 +21,10 @@ interface ServiceItemProps {
   service: ServiceWithNumberPrice;
   barbershop: Pick<Barbershop, "name" | "phones">;
 }
+
+const CalendarComp = dynamic(() => import("./calendar-comp"), {
+  loading: () => <Skeleton className="h-[500px] w-full" />,
+});
 
 const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   const { data } = authClient.useSession();
