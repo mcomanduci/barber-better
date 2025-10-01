@@ -20,4 +20,5 @@ export const auth = betterAuth({
     cookiePrefix: "barber-better",
   },
   plugins: [nextCookies()],
+  secret: process.env.BETTER_AUTH_SECRET as string,
 });

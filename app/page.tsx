@@ -58,8 +58,10 @@ const Home = async () => {
         <h2 className="text-xl font-bold">
           Olá, {user?.name ? user.name : "bem vindo"}!
         </h2>
-        <p className="capitalize">
-          {format(new Date(), "EEEE, dd 'de' MMMM", { locale: ptBR })}
+        <p>
+          <span>
+            {format(new Date(), "EEEE, dd 'de' MMMM", { locale: ptBR })}
+          </span>
         </p>
 
         <div className="mt-6">
