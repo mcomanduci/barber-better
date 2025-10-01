@@ -59,7 +59,7 @@ const BookingSummary = ({
           </div>
         </CardContent>
       </Card>
-      <div className="mt-5">
+      <div className="mt-5 space-y-4">
         {barbershop.phones.map((phone, index) => (
           <PhoneItems key={index} phone={phone} />
         ))}

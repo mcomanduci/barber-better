@@ -19,6 +19,7 @@ import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Skeleton } from "./ui/skeleton";
 import { authClient, signOut } from "@/lib/auth-client";
 import SignInDialog from "./sign-in-dialog";
+import { getCurrentUser } from "@/server/users";
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const { data, isPending } = authClient.useSession();

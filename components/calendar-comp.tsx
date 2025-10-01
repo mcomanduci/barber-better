@@ -154,7 +154,7 @@ const CalendarComp = ({
       resetCalendarState();
       onSheetClose?.();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Erro ao criar reserva!");
     }
   };

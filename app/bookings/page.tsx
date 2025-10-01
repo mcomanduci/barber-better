@@ -1,16 +1,31 @@
 import Header from "@/components/header";
 import React from "react";
 import db from "@/lib/prisma";
-import { getCurrentUser } from "@/server/users";
-import { notFound } from "next/navigation";
+import { getCurrentUserOptional } from "@/server/users";
 import BookingItem from "@/components/booking-item";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Page = async () => {
-  const session = await getCurrentUser();
-  if (!session.user) {
-    return notFound();
+  const session = await getCurrentUserOptional();
+
+  if (!session?.user) {
+    return (
+      <>
+        <Header />
+        <div className="flex flex-col items-center justify-center space-y-4 p-5">
+          <h1 className="text-xl font-bold">Agendamentos</h1>
+          <p className="text-center text-gray-600">
+            Você precisa estar logado para ver seus agendamentos.
+          </p>
+          <Button asChild>
+            <Link href="/">Voltar ao início</Link>
+          </Button>
+        </div>
+      </>
+    );
   }
-  const confirmedBookings = await db.booking.findMany({
+  const rawConfirmedBookings = await db.booking.findMany({
     where: {
       userId: session.user.id,
       date: {
@@ -29,11 +44,11 @@ const Page = async () => {
     },
   });
 
-  const concludedBookings = await db.booking.findMany({
+  const rawConcludedBookings = await db.booking.findMany({
     where: {
       userId: session.user?.id,
       date: {
-        lt: new Date(), // Only get bookings before today
+        lt: new Date(),
       },
     },
     orderBy: {
@@ -48,19 +63,56 @@ const Page = async () => {
     },
   });
 
+  // Convert Decimal to number for client component serialization
+  const confirmedBookings = rawConfirmedBookings.map((booking) => ({
+    ...booking,
+    service: {
+      ...booking.service,
+      price: Number(booking.service.price),
+    },
+  }));
+
+  const concludedBookings = rawConcludedBookings.map((booking) => ({
+    ...booking,
+    service: {
+      ...booking.service,
+      price: Number(booking.service.price),
+    },
+  }));
+
   return (
     <>
       <Header />
       <div className="space-y-3 p-5">
         <h1 className="text-xl font-bold">Agendamentos</h1>
         <div className="space-y-4">
-          {confirmedBookings.map((booking) => (
-            <BookingItem key={booking.id} booking={booking} />
-          ))}
-          <p className="text-xl font-bold">Concluídos</p>
-          {concludedBookings.map((booking) => (
-            <BookingItem key={booking.id} booking={booking} />
-          ))}
+          {confirmedBookings.length > 0 && (
+            <>
+              <h3 className="text-xs font-bold text-gray-400 uppercase">
+                Confirmados
+              </h3>
+              {confirmedBookings.map((booking) => (
+                <BookingItem key={booking.id} booking={booking} />
+              ))}
+            </>
+          )}
+
+          {concludedBookings.length > 0 && (
+            <>
+              <h3 className="text-xs font-bold text-gray-400 uppercase">
+                Finalizados
+              </h3>
+              {concludedBookings.map((booking) => (
+                <BookingItem key={booking.id} booking={booking} />
+              ))}
+            </>
+          )}
+
+          {confirmedBookings.length === 0 && concludedBookings.length === 0 && (
+            <p className="text-sm text-gray-400">
+              Você não possui agendamentos, que tal reservar um horário?
+            </p>
+          )}
         </div>
       </div>
     </>

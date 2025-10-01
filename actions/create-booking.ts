@@ -11,7 +11,6 @@ interface CreateBookingParams {
 
 export const createBooking = async (params: CreateBookingParams) => {
   const session = await getCurrentUser();
-  console.log(session);
   if (!session?.user) throw new Error("Usuário não autenticado");
   await db.booking.create({
     data: { ...params, userId: session.user.id },

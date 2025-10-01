@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -7,32 +9,78 @@ import { format, isFuture } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
 import Image from "next/image";
 import BookingSummary from "./booking-summary";
-import PhoneItems from "./phone-items";
+import { Button } from "./ui/button";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { deleteBooking } from "@/actions/delete-booking";
+import { toast } from "sonner";
 
-interface BookingItemProps {
-  booking: Prisma.BookingGetPayload<{
+// Custom type with serialized price
+type BookingWithSerializedPrice = Omit<
+  Prisma.BookingGetPayload<{
     include: {
       service: {
         include: { barbershop: true };
       };
     };
-  }>;
+  }>,
+  "service"
+> & {
+  service: Omit<
+    Prisma.BookingGetPayload<{
+      include: {
+        service: {
+          include: { barbershop: true };
+        };
+      };
+    }>["service"],
+    "price"
+  > & {
+    price: number;
+  };
+};
+
+interface BookingItemProps {
+  booking: BookingWithSerializedPrice;
 }
 
-// TODO: Receber dados via props
 const BookingItem = ({ booking }: BookingItemProps) => {
   const isConfirmed = isFuture(booking.date);
   const barbershop = booking.service.barbershop;
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const handleCancelBookingClick = () => {
+    try {
+      deleteBooking(booking.id);
+      setIsSheetOpen(false);
+      toast.success("Reserva cancelada com sucesso!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Erro ao cancelar a reserva.");
+    }
+  };
+  const handleSheetOpenChange = (isOpen: boolean) => {
+    setIsSheetOpen(isOpen);
+  };
   return (
     <>
-      <Sheet>
+      <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
         <SheetTrigger className="w-full min-w-[350px]">
           <Card className="min-w-full p-0">
             <CardContent className="flex justify-between p-0">
@@ -116,15 +164,56 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           </div>
           <div className="border-t border-solid px-5 py-5">
             <BookingSummary
-              service={{
-                ...booking.service,
-                price: Number(booking.service.price),
-              }}
+              service={booking.service}
               selectedDay={booking.date}
               selectedTime={format(booking.date, "HH:mm", { locale: ptBR })}
               barbershop={barbershop}
             />
           </div>
+          <SheetFooter className="p-5">
+            <div className="flex w-full gap-3">
+              <SheetClose asChild>
+                <Button variant="outline" className="flex-1">
+                  Voltar
+                </Button>
+              </SheetClose>
+              {isConfirmed && (
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive" className="flex-1">
+                      Cancelar reserva
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="w-[90%]" asChild>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Cancelar Reserva</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Tem certeza que deseja cancelar esse agendamento?
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <div className="flex gap-3">
+                        <AlertDialogCancel asChild>
+                          <Button variant="outline" className="flex-1">
+                            Voltar
+                          </Button>
+                        </AlertDialogCancel>
+                        <AlertDialogCancel asChild>
+                          <Button
+                            variant="destructive"
+                            className="flex-1"
+                            onClick={handleCancelBookingClick}
+                          >
+                            Confirmar
+                          </Button>
+                        </AlertDialogCancel>
+                      </div>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              )}
+            </div>
+          </SheetFooter>
         </SheetContent>
       </Sheet>
     </>

@@ -9,6 +9,8 @@ import Search from "@/components/search";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/server";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 const Home = async () => {
   const user = await getCurrentUser();
@@ -18,7 +20,7 @@ const Home = async () => {
       name: "desc",
     },
   });
-  const confirmedBookings = (await getCurrentUser())
+  const rawConfirmedBookings = (await getCurrentUser())
     ? await db.booking.findMany({
         where: {
           userId: user?.id,
@@ -39,15 +41,26 @@ const Home = async () => {
       })
     : [];
 
+  // Convert Decimal to number for client component serialization
+  const confirmedBookings = rawConfirmedBookings.map((booking) => ({
+    ...booking,
+    service: {
+      ...booking.service,
+      price: Number(booking.service.price),
+    },
+  }));
+
   return (
     <>
       <Header />
 
       <div className="p-5">
         <h2 className="text-xl font-bold">
-          Olá, {user?.name ? user.name : "Visitante"}!
+          Olá, {user?.name ? user.name : "bem vindo"}!
         </h2>
-        <p>Segunda-feira, 22 de Setembro</p>
+        <p className="capitalize">
+          {format(new Date(), "EEEE, dd 'de' MMMM", { locale: ptBR })}
+        </p>
 
         <div className="mt-6">
           <Search />
