@@ -1,7 +1,6 @@
 import Header from "@/components/header";
 import Image from "next/image";
 import BarbershopItem from "@/components/barbershop-item";
-import db from "@/lib/prisma";
 import { Barbershop } from "@prisma/client";
 import { quickSearchOptions } from "@/constants/search";
 import Search from "@/components/search";
@@ -12,6 +11,8 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getConfirmedBookings } from "@/data/get-bookings";
+import { getBarbershops, getPopularBarbershops } from "@/data/get-barbershops";
 
 const BookingItem = dynamic(() => import("@/components/booking-item"), {
   loading: () => <Skeleton className="h-6 w-6" />,
@@ -19,41 +20,9 @@ const BookingItem = dynamic(() => import("@/components/booking-item"), {
 
 const Home = async () => {
   const user = await getCurrentUser();
-  const barbershops = await db.barbershop.findMany({});
-  const popularBarbershops = await db.barbershop.findMany({
-    orderBy: {
-      name: "desc",
-    },
-  });
-  const rawConfirmedBookings = (await getCurrentUser())
-    ? await db.booking.findMany({
-        where: {
-          userId: user?.id,
-          date: {
-            gte: new Date(), // Only get bookings from today onwards
-          },
-        },
-        include: {
-          service: {
-            include: {
-              barbershop: true,
-            },
-          },
-        },
-        orderBy: {
-          date: "asc",
-        },
-      })
-    : [];
-
-  // Convert Decimal to number for client component serialization
-  const confirmedBookings = rawConfirmedBookings.map((booking) => ({
-    ...booking,
-    service: {
-      ...booking.service,
-      price: Number(booking.service.price),
-    },
-  }));
+  const barbershops = await getBarbershops();
+  const popularBarbershops = await getPopularBarbershops();
+  const confirmedBookings = await getConfirmedBookings();
 
   return (
     <>

@@ -1,11 +1,14 @@
 import Header from "@/components/header";
 import React from "react";
-import db from "@/lib/prisma";
 import { getCurrentUserOptional } from "@/server/users";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import dynamic from "next/dynamic";
+import {
+  getConfirmedBookings,
+  getConcludedBookings,
+} from "@/data/get-bookings";
 
 const BookingItem = dynamic(() => import("@/components/booking-item"), {
   loading: () => <Skeleton className="h-6 w-6" />,
@@ -30,60 +33,9 @@ const Page = async () => {
       </>
     );
   }
-  const rawConfirmedBookings = await db.booking.findMany({
-    where: {
-      userId: session.user.id,
-      date: {
-        gte: new Date(), // Only get bookings from today onwards
-      },
-    },
-    orderBy: {
-      date: "asc",
-    },
-    include: {
-      service: {
-        include: {
-          barbershop: true,
-        },
-      },
-    },
-  });
+  const confirmedBookings = await getConfirmedBookings();
 
-  const rawConcludedBookings = await db.booking.findMany({
-    where: {
-      userId: session.user?.id,
-      date: {
-        lt: new Date(),
-      },
-    },
-    orderBy: {
-      date: "desc",
-    },
-    include: {
-      service: {
-        include: {
-          barbershop: true,
-        },
-      },
-    },
-  });
-
-  // Convert Decimal to number for client component serialization
-  const confirmedBookings = rawConfirmedBookings.map((booking) => ({
-    ...booking,
-    service: {
-      ...booking.service,
-      price: Number(booking.service.price),
-    },
-  }));
-
-  const concludedBookings = rawConcludedBookings.map((booking) => ({
-    ...booking,
-    service: {
-      ...booking.service,
-      price: Number(booking.service.price),
-    },
-  }));
+  const concludedBookings = await getConcludedBookings();
 
   return (
     <>
