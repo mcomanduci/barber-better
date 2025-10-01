@@ -28,9 +28,9 @@ export default function RootLayout({
             <Footer />
           </div>
           <Toaster />
-          <SpeedInsights />
-          <Analytics />
         </AuthSyncProvider>
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );

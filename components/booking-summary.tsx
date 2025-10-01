@@ -3,6 +3,7 @@ import { Card, CardContent } from "./ui/card";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import PhoneItems from "./phone-items";
+import { Barbershop } from "@prisma/client";
 
 interface ServiceWithNumberPrice {
   name: string;
@@ -10,13 +11,10 @@ interface ServiceWithNumberPrice {
 }
 
 interface BookingSummaryProps {
-  service: ServiceWithNumberPrice;
+  service: Pick<ServiceWithNumberPrice, "name" | "price">;
   selectedDay: Date;
   selectedTime: string;
-  barbershop: {
-    name: string;
-    phones: string[];
-  };
+  barbershop: Pick<Barbershop, "name" | "phones">;
 }
 
 const BookingSummary = ({
