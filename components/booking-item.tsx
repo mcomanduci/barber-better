@@ -19,18 +19,10 @@ import {
 import Image from "next/image";
 import BookingSummary from "./booking-summary";
 import { Button } from "./ui/button";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { deleteBooking } from "@/actions/delete-booking";
 import { toast } from "sonner";
+import DialogCancelBooking from "./dialog-cancel-booking";
+import DialogRating from "./dialog-rating";
 
 // Custom type with serialized price
 type BookingWithSerializedPrice = Omit<
@@ -65,7 +57,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
   const isConfirmed = isFuture(booking.date);
   const barbershop = booking.service.barbershop;
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const handleCancelBookingClick = () => {
+  const handleCancelBooking = () => {
     try {
       deleteBooking(booking.id);
       setIsSheetOpen(false);
@@ -107,7 +99,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                   <p className="text-sm">{barbershop.name}</p>
                 </div>
               </div>
-              <div className="flex flex-col items-center justify-center border-l-2 border-solid px-5">
+              <div className="flex max-w-[110px] min-w-[110px] flex-col items-center justify-center border-l-2 border-solid px-5">
                 <p className="text-sm">
                   {format(booking.date, "MMMM", { locale: ptBR })}
                 </p>
@@ -178,40 +170,11 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                 </Button>
               </SheetClose>
               {isConfirmed && (
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="destructive" className="flex-1">
-                      Cancelar reserva
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent className="w-[90%]" asChild>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Cancelar Reserva</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Tem certeza que deseja cancelar esse agendamento?
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <div className="flex gap-3">
-                        <AlertDialogCancel asChild>
-                          <Button variant="outline" className="flex-1">
-                            Voltar
-                          </Button>
-                        </AlertDialogCancel>
-                        <AlertDialogCancel asChild>
-                          <Button
-                            variant="destructive"
-                            className="flex-1"
-                            onClick={handleCancelBookingClick}
-                          >
-                            Confirmar
-                          </Button>
-                        </AlertDialogCancel>
-                      </div>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                <DialogCancelBooking
+                  handleCancelBooking={handleCancelBooking}
+                />
               )}
+              {!isConfirmed && <DialogRating />}
             </div>
           </SheetFooter>
         </SheetContent>

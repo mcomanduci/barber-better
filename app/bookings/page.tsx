@@ -33,8 +33,8 @@ const Page = async () => {
       </>
     );
   }
-  const confirmedBookings = await getConfirmedBookings();
 
+  const confirmedBookings = await getConfirmedBookings();
   const concludedBookings = await getConcludedBookings();
 
   return (

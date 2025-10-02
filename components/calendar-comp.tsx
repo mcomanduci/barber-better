@@ -21,6 +21,7 @@ import { Calendar } from "./ui/calendar";
 import { Skeleton } from "./ui/skeleton";
 import BookingSummary from "./booking-summary";
 import { useRouter } from "next/navigation";
+import DialogConfirmation from "./dialog-confirmation";
 
 // Create a type for serialized service with number price instead of Decimal
 type ServiceWithNumberPrice = Omit<BarbershopService, "price"> & {
@@ -74,6 +75,7 @@ const CalendarComp = ({
   );
   const [dayBookings, setDayBookings] = React.useState<Booking[]>([]);
   const [isLoadingBookings, setIsLoadingBookings] = React.useState(false);
+  const [isConfirmationOpen, setIsConfirmationOpen] = React.useState(false);
 
   const getTimeList = (bookings: Booking[]) => {
     const bookedTimes = bookings.map((booking) =>
@@ -152,12 +154,13 @@ const CalendarComp = ({
         serviceId: service.id,
         date: newDate,
       });
-      toast.success("Reserva criada com sucesso!", {
-        action: {
-          label: "Ver reservas",
-          onClick: () => router.push("/bookings"),
-        },
-      });
+      // toast.success("Reserva criada com sucesso!", {
+      //   action: {
+      //     label: "Ver reservas",
+      //     onClick: () => router.push("/bookings"),
+      //   },
+      // });
+      setIsConfirmationOpen(true);
       resetCalendarState();
       onSheetClose?.();
     } catch (error) {
@@ -167,71 +170,82 @@ const CalendarComp = ({
   };
 
   return (
-    <SheetContent className="gap-0 px-0">
-      <SheetHeader>
-        <SheetTitle className="mx-auto pt-5">Fazer Reserva</SheetTitle>
-      </SheetHeader>
-      <div className="border-b border-solid py-5">
-        <Calendar
-          mode="single"
-          locale={ptBR}
-          selected={selectedDay}
-          onSelect={handleSelectedDay}
-          disabled={{ before: new Date() }}
-          required
-        />
-      </div>
-
-      {selectedDay && (
-        <div className="flex gap-3 overflow-x-auto border-b border-solid p-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {isLoadingBookings ? (
-            Array.from({ length: 6 }).map((_, index) => (
-              <Skeleton
-                key={index}
-                className="h-9 w-17 min-w-17 flex-shrink-0 rounded-full"
-              />
-            ))
-          ) : getTimeList(dayBookings).length === 0 ? (
-            <p className="mx-auto flex h-9 items-center text-sm text-gray-400">
-              Não há horários disponíveis neste dia.
-            </p>
-          ) : (
-            getTimeList(dayBookings).map((time) => (
-              <Button
-                key={time}
-                variant={selectedTime === time ? "default" : "outline"}
-                className="rounded-full border-1"
-                onClick={() => handleTimeSelect(time)}
-              >
-                {time}
-              </Button>
-            ))
-          )}
-        </div>
-      )}
-
-      {selectedTime && (
-        <div className="p-5">
-          <BookingSummary
-            service={service}
-            selectedDay={selectedDay}
-            selectedTime={selectedTime}
-            barbershop={barbershop}
+    <>
+      <SheetContent className="gap-0 overflow-y-auto px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <SheetHeader className="p-0">
+          <SheetTitle className="mx-auto pt-6">Fazer Reserva</SheetTitle>
+        </SheetHeader>
+        <div className="border-b border-solid py-5">
+          <Calendar
+            mode="single"
+            locale={ptBR}
+            selected={selectedDay}
+            onSelect={handleSelectedDay}
+            disabled={{ before: new Date() }}
+            required
+            className="w-full"
           />
         </div>
-      )}
-      <SheetFooter className="mt-5 px-5">
-        <SheetClose asChild>
-          <Button
-            disabled={!selectedTime || !selectedDay}
-            onClick={handleCreateBooking}
-            className="w-full"
-          >
-            Confirmar
-          </Button>
-        </SheetClose>
-      </SheetFooter>
-    </SheetContent>
+
+        {selectedDay && (
+          <div>
+            <div className="flex gap-3 overflow-x-auto border-b border-solid p-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {isLoadingBookings ? (
+                Array.from({ length: 6 }).map((_, index) => (
+                  <Skeleton
+                    key={index}
+                    className="h-9 w-17 min-w-17 flex-shrink-0 rounded-full"
+                  />
+                ))
+              ) : getTimeList(dayBookings).length === 0 ? (
+                <p className="mx-auto flex h-9 items-center text-sm text-gray-400">
+                  Não há horários disponíveis neste dia.
+                </p>
+              ) : (
+                getTimeList(dayBookings).map((time) => (
+                  <Button
+                    key={time}
+                    variant={selectedTime === time ? "default" : "outline"}
+                    className="rounded-full border-1"
+                    onClick={() => handleTimeSelect(time)}
+                  >
+                    {time}
+                  </Button>
+                ))
+              )}
+            </div>
+          </div>
+        )}
+
+        {selectedTime && (
+          <div className="p-5">
+            <BookingSummary
+              service={service}
+              selectedDay={selectedDay}
+              selectedTime={selectedTime}
+              barbershop={barbershop}
+            />
+          </div>
+        )}
+        <SheetFooter className="mt-auto px-5">
+          <SheetClose asChild>
+            <Button
+              disabled={!selectedTime || !selectedDay}
+              onClick={handleCreateBooking}
+              className="w-full"
+            >
+              Confirmar
+            </Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+      <DialogConfirmation
+        isOpen={isConfirmationOpen}
+        onOpenChange={setIsConfirmationOpen}
+        title="Reserva Efetuada!"
+        description="Sua reserva foi agendada com sucesso."
+      />
+    </>
   );
 };
 

@@ -15,7 +15,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import Image from "next/image";
 import { quickSearchOptions } from "@/constants/search";
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 import { Skeleton } from "./ui/skeleton";
 import { authClient, signOut } from "@/lib/auth-client";
 import SignInDialog from "./sign-in-dialog";
@@ -142,15 +151,42 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
         </div>
         {data?.user && (
           <div className="flex flex-col gap-2">
-            <Button
-              className="justify-start gap-2 px-4"
-              variant="ghost"
-              size="lg"
-              onClick={handleLogoutClick}
-            >
-              <LogOutIcon size={18} />
-              Sair da conta
-            </Button>
+            <Dialog>
+              <DialogTrigger className="w-full" asChild>
+                <Button
+                  className="justify-start gap-2 px-4"
+                  variant="ghost"
+                  size="lg"
+                >
+                  <LogOutIcon size={18} />
+                  Sair da conta
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="w-[90%] !max-w-[480px]">
+                <DialogHeader className="!text-center">
+                  <DialogTitle>Sair</DialogTitle>
+                  <DialogDescription>
+                    Deseja mesmo sair da plataforma?
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter className="flex flex-row gap-3">
+                  <DialogClose asChild>
+                    <Button variant="secondary" className="flex-1">
+                      Voltar
+                    </Button>
+                  </DialogClose>
+                  <DialogClose asChild>
+                    <Button
+                      variant="destructive"
+                      className="flex-1"
+                      onClick={handleLogoutClick}
+                    >
+                      Sair
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
         )}
       </SheetContent>
