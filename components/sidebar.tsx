@@ -46,8 +46,10 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <Sheet>
-      <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent className="overflow-y-auto px-4 pt-6">
+      <SheetTrigger asChild className="lg:hidden">
+        {children}
+      </SheetTrigger>
+      <SheetContent className="overflow-y-auto px-4 pt-6 lg:hidden">
         <SheetHeader className="p-0">
           <SheetTitle className="text-left">Menu</SheetTitle>
         </SheetHeader>

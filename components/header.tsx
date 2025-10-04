@@ -13,7 +13,7 @@ const Sidebar = dynamic(() => import("./sidebar"), {
 const Header = () => {
   return (
     <Card className="rounded-none p-0">
-      <CardContent className="flex flex-row items-center justify-between p-5">
+      <CardContent className="container mx-auto flex flex-row items-center justify-between p-5">
         <Link href={"/"}>
           <Image
             src="/logo.svg"
@@ -23,6 +23,35 @@ const Header = () => {
             className="w-auto"
           />
         </Link>
+
+        <div className="hidden gap-3 lg:flex">
+          <Button
+            variant="ghost"
+            className="justify-start gap-2 px-4"
+            size="lg"
+            asChild
+          >
+            <Link href="/bookings">
+              <Image
+                src="/calendar-nfill.svg"
+                alt="Agendamentos"
+                width={18}
+                height={18}
+              />
+              Agendamentos
+            </Link>
+          </Button>
+          <Button>
+            <Image
+              src="/user.svg"
+              alt="Perfil"
+              width={18}
+              height={18}
+              className="mr-2"
+            />
+            Login
+          </Button>
+        </div>
 
         <Sidebar>
           <Button variant="outline" size="icon">

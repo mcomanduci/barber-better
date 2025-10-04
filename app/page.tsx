@@ -29,70 +29,76 @@ const Home = async () => {
       <Header />
 
       <div className="p-5">
-        <h2 className="text-xl font-bold">
-          Olá, {user?.name ? user.name : "bem vindo"}!
-        </h2>
-        <p>
-          <span>
-            {format(new Date(), "EEEE, dd 'de' MMMM", { locale: ptBR })}
-          </span>
-        </p>
-
-        <div className="mt-6">
-          <Search />
-        </div>
-
-        <div className="-mx-5 mt-6 flex gap-3 overflow-x-scroll pr-5 pl-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {quickSearchOptions.map((option) => (
-            <Button
-              key={option.title}
-              className="mt-6 flex-1"
-              variant="secondary"
-              asChild
-            >
-              <Link href={`/barbershops?service=${option.title}`}>
-                <Image
-                  src={option.imageURL}
-                  alt={option.title}
-                  width={16}
-                  height={16}
-                />
-                {option.title}
-              </Link>
-            </Button>
-          ))}
-        </div>
-
-        <div className="relative mt-6 h-[150px] w-full">
-          <Image
-            src="/banner-01.png"
-            alt="Agende nos melhores com FSW Barber"
-            fill
-            priority
-            className="rounded-xl object-cover"
-          />
-        </div>
-
-        {user && confirmedBookings.length > 0 && (
-          <>
-            <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
-              Agendamentos
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:gap-20">
+          <div className="lg:max-w-[460px]">
+            <h2 className="text-xl font-bold">
+              Olá, {user?.name ? user.name : "bem vindo"}!
             </h2>
-            <div className="-mx-4 flex gap-3 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {confirmedBookings.map((booking) => (
-                <BookingItem key={booking.id} booking={booking} />
+            <p>
+              <span>
+                {format(new Date(), "EEEE, dd 'de' MMMM", { locale: ptBR })}
+              </span>
+            </p>
+
+            <div className="mt-6">
+              <Search />
+            </div>
+
+            <div className="-mx-5 mt-6 flex gap-3 overflow-x-scroll pr-5 pl-5 [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden">
+              {quickSearchOptions.map((option) => (
+                <Button
+                  key={option.title}
+                  className="mt-6 flex-1"
+                  variant="secondary"
+                  asChild
+                >
+                  <Link href={`/barbershops?service=${option.title}`}>
+                    <Image
+                      src={option.imageURL}
+                      alt={option.title}
+                      width={16}
+                      height={16}
+                    />
+                    {option.title}
+                  </Link>
+                </Button>
               ))}
             </div>
-          </>
-        )}
 
-        <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
-          Recomendados
-        </h2>
-        <div className="-mx-5 flex gap-4 overflow-auto pl-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {barbershops.map((barbershop: Barbershop) => (
-            <BarbershopItem barbershop={barbershop} key={barbershop.id} />
-          ))}
+            <div className="relative mt-6 h-[150px] w-full lg:hidden">
+              <Image
+                src="/banner-01.png"
+                alt="Agende nos melhores com FSW Barber"
+                fill
+                priority
+                className="rounded-xl object-cover"
+              />
+            </div>
+
+            {user && confirmedBookings.length > 0 && (
+              <>
+                <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
+                  Agendamentos
+                </h2>
+                <div className="-mx-4 flex gap-3 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {confirmedBookings.map((booking) => (
+                    <BookingItem key={booking.id} booking={booking} />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          <div>
+            <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
+              Recomendados
+            </h2>
+            <div className="-mx-5 flex gap-4 overflow-auto pl-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {barbershops.map((barbershop: Barbershop) => (
+                <BarbershopItem barbershop={barbershop} key={barbershop.id} />
+              ))}
+            </div>
+          </div>
         </div>
 
         <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
