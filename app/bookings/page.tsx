@@ -4,12 +4,12 @@ import { getCurrentUserOptional } from '@/server/users';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
-import dynamic from 'next/dynamic';
+import dynamicImport from 'next/dynamic';
 import { getConfirmedBookings, getConcludedBookings } from '@/data/get-bookings';
 
-export const dynamicParams = 'force-dynamic';
+export const dynamic = 'force-dynamic';
 
-const BookingItem = dynamic(() => import('@/components/booking-item'), {
+const BookingItem = dynamicImport(() => import('@/components/booking-item'), {
   loading: () => <Skeleton className="h-6 w-6" />,
 });
 
