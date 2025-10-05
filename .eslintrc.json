@@ -1,21 +1,32 @@
 {
   "root": true,
-  "extends": ["next/core-web-vitals", "prettier"],
-  "plugins": ["react", "react-hooks", "@typescript-eslint"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "react/jsx-uses-react": "off"
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
   },
   "ignorePatterns": [
-    "node_modules/",
-    ".next/",
-    "out/",
-    "build/",
+    "node_modules",
+    ".next",
+    "out",
+    "build",
     "next-env.d.ts",
     "*.config.js",
     "*.config.mjs"
