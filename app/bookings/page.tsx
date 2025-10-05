@@ -1,16 +1,15 @@
-import Header from "@/components/header";
-import React from "react";
-import { getCurrentUserOptional } from "@/server/users";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
-import dynamic from "next/dynamic";
-import {
-  getConfirmedBookings,
-  getConcludedBookings,
-} from "@/data/get-bookings";
+import Header from '@/components/header';
+import React from 'react';
+import { getCurrentUserOptional } from '@/server/users';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { Skeleton } from '@/components/ui/skeleton';
+import dynamic from 'next/dynamic';
+import { getConfirmedBookings, getConcludedBookings } from '@/data/get-bookings';
 
-const BookingItem = dynamic(() => import("@/components/booking-item"), {
+export const dynamicParams = 'force-dynamic';
+
+const BookingItem = dynamic(() => import('@/components/booking-item'), {
   loading: () => <Skeleton className="h-6 w-6" />,
 });
 
@@ -45,9 +44,7 @@ const Page = async () => {
         <div className="space-y-4">
           {confirmedBookings.length > 0 && (
             <>
-              <h3 className="text-xs font-bold text-gray-400 uppercase">
-                Confirmados
-              </h3>
+              <h3 className="text-xs font-bold uppercase text-gray-400">Confirmados</h3>
               {confirmedBookings.map((booking) => (
                 <BookingItem key={booking.id} booking={booking} />
               ))}
@@ -56,9 +53,7 @@ const Page = async () => {
 
           {concludedBookings.length > 0 && (
             <>
-              <h3 className="text-xs font-bold text-gray-400 uppercase">
-                Finalizados
-              </h3>
+              <h3 className="text-xs font-bold uppercase text-gray-400">Finalizados</h3>
               {concludedBookings.map((booking) => (
                 <BookingItem key={booking.id} booking={booking} />
               ))}
