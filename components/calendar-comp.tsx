@@ -135,7 +135,7 @@ const CalendarComp = ({ service, barbershop, onSheetClose }: ServiceItemProps) =
     });
 
     if (!result.success) {
-      const firstError = result.error.errors[0]?.message ?? 'Dados inválidos';
+      const firstError = result.error.issues[0]?.message ?? 'Dados inválidos';
       toast.error(firstError);
       console.error(result.error);
       return;
