@@ -37,7 +37,7 @@ const DialogRating = ({
     };
 
     fetchRating();
-  }, [isRated]);
+  }, [bookingId, isRated]);
 
   const handleSendRating = async () => {
     try {

@@ -15,16 +15,16 @@ import { notFound } from "next/navigation";
 interface BarbershopPageProps {
   params: Promise<{
     id: string;
-    imageURL: string;
-    name: string;
   }>;
 }
 
 const BarbershopPage = async ({ params }: BarbershopPageProps) => {
   const { id } = await params;
-  const rating = await getBarbershopRating(id);
-  const ratingCount = await getBarbershopRatingCount(id);
-  const barbershop = await getBarbershopById(id);
+  const [rating, ratingCount, barbershop] = await Promise.all([
+    getBarbershopRating(id),
+    getBarbershopRatingCount(id),
+    getBarbershopById(id),
+  ]);
   if (!barbershop) {
     return notFound();
   }
@@ -46,6 +46,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           alt={barbershopWithSerializablePrices.name}
           fill
           className="object-cover"
+          priority
         />
 
         <Button
@@ -74,7 +75,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
         <h1 className="mb-3 text-xl font-bold">
           {barbershopWithSerializablePrices.name}
         </h1>
-        <div className="item-center mb-2 flex gap-2">
+        <div className="mb-2 flex items-center gap-2">
           <MapPinIcon className="text-primary" size={18} />
           <p className="text-sm">{barbershopWithSerializablePrices.address}</p>
         </div>
@@ -113,7 +114,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
       <div className="space-y-3 p-5">
         <h2 className="text-xs font-bold text-gray-400 uppercase">Contato</h2>
         {barbershopWithSerializablePrices.phones.map((phone, index) => (
-          <PhoneItems key={index + 1} phone={phone} />
+          <PhoneItems key={`phone-${index}`} phone={phone} />
         ))}
       </div>
     </div>
