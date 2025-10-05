@@ -10,8 +10,15 @@ import { AuthSyncProvider } from "@/components/auth-sync-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Barber FSW",
-  description: "Barbershop appointment booking app",
+  title: "FSW Barber - Agende seu corte",
+  description:
+    "Encontre as melhores barbearias e agende seu horário de forma simples e rápida.",
+  keywords: ["barbearia", "corte de cabelo", "agendamento", "beleza masculina"],
+  openGraph: {
+    title: "FSW Barber",
+    description: "As melhores barbearias em um só lugar",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({

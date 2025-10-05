@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -14,13 +14,37 @@ import {
 import { Button } from "./ui/button";
 import { Star } from "lucide-react";
 import DialogConfirmation from "./dialog-confirmation";
+import { rateBooking } from "@/actions/create-rating";
+import { getBookingRating } from "@/data/get-bookings";
 
-const DialogRating = () => {
+const DialogRating = ({
+  bookingId,
+  isRated,
+}: {
+  bookingId: string;
+  isRated: boolean;
+}) => {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
-  const handleSendRating = () => {
+  useEffect(() => {
+    const fetchRating = async () => {
+      const ratingValue = await getBookingRating(bookingId);
+      if (ratingValue) {
+        setRating(ratingValue);
+      }
+    };
+
+    fetchRating();
+  }, [isRated]);
+
+  const handleSendRating = async () => {
+    try {
+      await rateBooking({ bookingId: bookingId, rating });
+    } catch (error) {
+      console.error("Erro ao enviar avaliação:", error);
+    }
     // Here you can add the logic to send the rating to the server
     setIsConfirmationOpen(true);
   };
@@ -29,7 +53,9 @@ const DialogRating = () => {
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="flex-1">Avaliar</Button>
+          <Button className="flex-1" disabled={isRated}>
+            {isRated ? "Avaliação Enviada" : "Enviar Avaliação"}
+          </Button>
         </DialogTrigger>
         <DialogContent className="w-[90%] !max-w-[480px]">
           <DialogHeader className="!text-center">
@@ -64,8 +90,12 @@ const DialogRating = () => {
               </Button>
             </DialogClose>
             <DialogClose asChild>
-              <Button className="flex-1" onClick={handleSendRating}>
-                Enviar Avaliação
+              <Button
+                className="flex-1"
+                onClick={handleSendRating}
+                disabled={isRated}
+              >
+                {isRated ? "Avaliação Enviada" : "Enviar Avaliação"}
               </Button>
             </DialogClose>
           </DialogFooter>

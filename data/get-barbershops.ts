@@ -52,3 +52,41 @@ export const getBarbershopById = async (id: string) => {
     },
   });
 };
+
+export const getBarbershopRating = async (barbershopId: string) => {
+  const ratings = await db.booking.findMany({
+    where: {
+      service: {
+        barbershopId,
+      },
+      rating: {
+        not: null,
+      },
+    },
+    select: {
+      rating: true,
+    },
+  });
+
+  if (!ratings || ratings.length === 0) return null;
+
+  const totalRating = ratings.reduce(
+    (acc, curr) => acc + (curr.rating || 0),
+    0,
+  );
+  const averageRating = totalRating / ratings.length;
+  return averageRating.toFixed(1);
+};
+
+export const getBarbershopRatingCount = async (barbershopId: string) => {
+  return await db.booking.count({
+    where: {
+      service: {
+        barbershopId,
+      },
+      rating: {
+        not: null,
+      },
+    },
+  });
+};

@@ -6,12 +6,14 @@ import { StarIcon } from "lucide-react";
 import { Badge } from "./ui/badge";
 
 import Link from "next/link";
+import { getBarbershopRating } from "@/data/get-barbershops";
 
 interface BarbershopItemProps {
   barbershop: Barbershop;
 }
 
-const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
+const BarbershopItem = async ({ barbershop }: BarbershopItemProps) => {
+  const rating = await getBarbershopRating(barbershop.id);
   return (
     <Card className="min-w-[167px] rounded-2xl p-[3px]">
       <CardContent className="p-0">
@@ -28,7 +30,7 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
             variant="secondary"
           >
             <StarIcon size={12} className="fill-primary text-primary" />
-            <p className="text-xs font-semibold">5,0</p>
+            <p className="text-xs font-semibold">{rating || "Sem Avaliação"}</p>
           </Badge>
         </div>
         <div className="px-2 pt-2 pb-2">

@@ -66,3 +66,11 @@ export const getConfirmedBookings = async () => {
     },
   }));
 };
+
+export const getBookingRating = async (bookingId: string) => {
+  const booking = await db.booking.findUnique({
+    where: { id: bookingId },
+    select: { rating: true },
+  });
+  return booking?.rating || null;
+};

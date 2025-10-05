@@ -5,20 +5,17 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { SearchIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
-
-const formSchema = z.object({
-  title: z.string().trim().min(1, {
-    message: "Digite algo para buscar",
-  }),
-});
+import {
+  searchBarbershopsSchema,
+  SearchBarbershopsInput,
+} from "@/lib/validations";
 
 const Search = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<SearchBarbershopsInput>({
+    resolver: zodResolver(searchBarbershopsSchema),
     defaultValues: {
       title: "",
     },
@@ -26,7 +23,7 @@ const Search = () => {
 
   const router = useRouter();
 
-  const handleSubmit = (data: z.infer<typeof formSchema>) => {
+  const handleSubmit = (data: SearchBarbershopsInput) => {
     router.push(`/barbershops?title=${data.title}`);
   };
 

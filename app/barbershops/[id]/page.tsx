@@ -2,21 +2,29 @@ import PhoneItems from "@/components/phone-items";
 import ServiceItem from "@/components/service-item";
 import Sidebar from "@/components/sidebar";
 import { Button } from "@/components/ui/button";
-import { getBarbershopById } from "@/data/get-barbershops";
+import {
+  getBarbershopById,
+  getBarbershopRating,
+  getBarbershopRatingCount,
+} from "@/data/get-barbershops";
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 interface BarbershopPageProps {
-  params: Promise<{ id: string; imageURL: string; name: string }>;
+  params: Promise<{
+    id: string;
+    imageURL: string;
+    name: string;
+  }>;
 }
 
 const BarbershopPage = async ({ params }: BarbershopPageProps) => {
   const { id } = await params;
-
+  const rating = await getBarbershopRating(id);
+  const ratingCount = await getBarbershopRatingCount(id);
   const barbershop = await getBarbershopById(id);
-
   if (!barbershop) {
     return notFound();
   }
@@ -61,6 +69,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           </Button>
         </Sidebar>
       </div>
+
       <div className="border-b border-solid p-5">
         <h1 className="mb-3 text-xl font-bold">
           {barbershopWithSerializablePrices.name}
@@ -71,7 +80,16 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
         </div>
         <div className="item-center flex gap-2">
           <StarIcon className="text-primary fill-primary" size={18} />
-          <p className="text-sm">5.0 (499 avaliações)</p>
+          <p className="text-sm">
+            {rating ? (
+              <>
+                {rating} ({ratingCount}{" "}
+                {ratingCount === 1 ? "avaliação" : "avaliações"})
+              </>
+            ) : (
+              "Sem Avaliação"
+            )}
+          </p>
         </div>
       </div>
       <div className="space-y-3 border-b border-solid p-5">

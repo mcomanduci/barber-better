@@ -174,7 +174,12 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                   handleCancelBooking={handleCancelBooking}
                 />
               )}
-              {!isConfirmed && <DialogRating />}
+              {!isConfirmed && (
+                <DialogRating
+                  bookingId={booking.id}
+                  isRated={booking.rating !== null}
+                />
+              )}
             </div>
           </SheetFooter>
         </SheetContent>
