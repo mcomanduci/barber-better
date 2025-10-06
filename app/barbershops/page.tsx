@@ -1,8 +1,8 @@
-import React from "react";
-import BarbershopItem from "@/components/barbershop-item";
-import Header from "@/components/header";
-import Search from "@/components/search";
-import { searchBarbershops } from "@/data/get-barbershops";
+import React from 'react';
+import BarbershopItem from '@/components/barbershop/barbershop-item';
+import Search from '@/components/general/search';
+import { searchBarbershops } from '@/data/get-barbershops';
+import Header from '@/components/layout/header';
 
 interface BarbershopPageProps {
   searchParams: Promise<{ title?: string; service?: string }>;
@@ -18,7 +18,7 @@ const BarbershopPage = async ({ searchParams }: BarbershopPageProps) => {
   return (
     <>
       <Header />
-      <div className="my-6 px-5">
+      <div className="my-6 px-5 lg:hidden">
         <Search />
       </div>
 

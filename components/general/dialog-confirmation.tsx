@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 import {
   Dialog,
   DialogClose,
@@ -8,9 +8,9 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "./ui/dialog";
-import { Button } from "./ui/button";
-import Image from "next/image";
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 interface DialogConfirmationProps {
   isOpen: boolean;
@@ -28,13 +28,7 @@ const DialogConfirmation = ({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-[280px] space-y-4">
-        <Image
-          src="/confirm.svg"
-          alt="Success"
-          width={72}
-          height={72}
-          className="mx-auto mb-4"
-        />
+        <Image src="/confirm.svg" alt="Success" width={72} height={72} className="mx-auto mb-4" />
         <DialogHeader className="space-y-2 !text-center">
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

@@ -1,23 +1,20 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { SearchIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
-import {
-  searchBarbershopsSchema,
-  SearchBarbershopsInput,
-} from "@/lib/validations";
+import React from 'react';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { SearchIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form';
+import { searchBarbershopsSchema, SearchBarbershopsInput } from '@/lib/validations';
 
 const Search = () => {
   const form = useForm<SearchBarbershopsInput>({
     resolver: zodResolver(searchBarbershopsSchema),
     defaultValues: {
-      title: "",
+      title: '',
     },
   });
 
@@ -36,7 +33,11 @@ const Search = () => {
           render={({ field }) => (
             <FormItem className="w-full">
               <FormControl>
-                <Input placeholder="Faça sua busca..." {...field} />
+                <Input
+                  placeholder="Buscar Barbearias"
+                  {...field}
+                  className="!bg-card border placeholder:text-gray-500"
+                />
               </FormControl>
               <FormMessage className="pl-3 text-xs" />
             </FormItem>

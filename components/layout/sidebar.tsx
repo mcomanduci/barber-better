@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Sheet,
   SheetClose,
@@ -8,13 +8,13 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "./ui/sheet";
-import { Button } from "./ui/button";
-import { LogInIcon, LogOutIcon } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import Link from "next/link";
-import Image from "next/image";
-import { quickSearchOptions } from "@/constants/search";
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
+import { LogOutIcon } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Link from 'next/link';
+import Image from 'next/image';
+import { quickSearchOptions } from '@/constants/search';
 import {
   Dialog,
   DialogClose,
@@ -24,14 +24,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { Skeleton } from "./ui/skeleton";
-import { authClient, signOut } from "@/lib/auth-client";
-import SignInDialog from "./sign-in-dialog";
+} from '@/components/ui/dialog';
+import { Skeleton } from '@/components/ui/skeleton';
+import { authClient, signOut } from '@/lib/auth-client';
+import SignInDialog from '@/components/auth/sign-in-dialog';
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const { data, isPending } = authClient.useSession();
-  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [isSigningIn, setIsSigningIn] = useState(false);
 
   const handleLogoutClick = () => signOut();
@@ -39,7 +38,6 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
   // Close dialog when user successfully signs in
   useEffect(() => {
     if (data?.user && isSigningIn) {
-      setIsLoginDialogOpen(false);
       setIsSigningIn(false);
     }
   }, [data?.user, isSigningIn]);
@@ -64,19 +62,14 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
         ) : data?.user ? (
           <div className="item-center flex gap-3 border-b border-solid py-5">
             <Avatar className="h-12 w-12">
-              <AvatarImage
-                src={data.user.image || ""}
-                alt="Avatar"
-                width={40}
-                height={40}
-              />
+              <AvatarImage src={data.user.image || ''} alt="Avatar" width={40} height={40} />
               <AvatarFallback>
                 {data.user.name
-                  ?.split(" ")
+                  ?.split(' ')
                   .map((name) => name[0])
-                  .join("")
+                  .join('')
                   .toUpperCase()
-                  .slice(0, 2) || "U"}
+                  .slice(0, 2) || 'U'}
               </AvatarFallback>
             </Avatar>
             <div className="flex min-w-0 flex-col justify-center">
@@ -87,19 +80,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
         ) : (
           <div className="flex items-center justify-between gap-3 border-b border-solid py-5">
             <h2 className="font-bold">Olá, faça seu login!</h2>
-            <Dialog
-              open={isLoginDialogOpen}
-              onOpenChange={setIsLoginDialogOpen}
-            >
-              <DialogTrigger asChild>
-                <Button size="icon">
-                  <LogInIcon />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="w-[90%]">
-                <SignInDialog onSignInStart={() => setIsSigningIn(true)} />
-              </DialogContent>
-            </Dialog>
+            <SignInDialog onSignInStart={() => setIsSigningIn(true)} />
           </div>
         )}
         <div className="flex flex-col gap-2 border-b border-solid py-5">
@@ -112,19 +93,9 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
             </Button>
           </SheetClose>
 
-          <Button
-            variant="ghost"
-            className="justify-start gap-2 px-4"
-            size="lg"
-            asChild
-          >
+          <Button variant="ghost" className="justify-start gap-2 px-4" size="lg" asChild>
             <Link href="/bookings">
-              <Image
-                src="/calendar.svg"
-                alt="Agendamentos"
-                width={18}
-                height={18}
-              />
+              <Image src="/calendar.svg" alt="Agendamentos" width={18} height={18} />
               Agendamentos
             </Link>
           </Button>
@@ -132,19 +103,9 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
         <div className="flex flex-col gap-2 border-b border-solid pb-5">
           {quickSearchOptions.map((option) => (
             <SheetClose key={option.title} asChild>
-              <Button
-                variant="ghost"
-                className="justify-start gap-2 px-4"
-                size="lg"
-                asChild
-              >
+              <Button variant="ghost" className="justify-start gap-2 px-4" size="lg" asChild>
                 <Link href={`/barbershops?service=${option.title}`}>
-                  <Image
-                    src={option.imageURL}
-                    alt={option.title}
-                    width={18}
-                    height={18}
-                  />
+                  <Image src={option.imageURL} alt={option.title} width={18} height={18} />
                   <p>{option.title}</p>
                 </Link>
               </Button>
@@ -155,11 +116,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
           <div className="flex flex-col gap-2">
             <Dialog>
               <DialogTrigger className="w-full" asChild>
-                <Button
-                  className="justify-start gap-2 px-4"
-                  variant="ghost"
-                  size="lg"
-                >
+                <Button className="justify-start gap-2 px-4" variant="ghost" size="lg">
                   <LogOutIcon size={18} />
                   Sair da conta
                 </Button>
@@ -167,9 +124,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
               <DialogContent className="w-[90%] !max-w-[480px]">
                 <DialogHeader className="!text-center">
                   <DialogTitle>Sair</DialogTitle>
-                  <DialogDescription>
-                    Deseja mesmo sair da plataforma?
-                  </DialogDescription>
+                  <DialogDescription>Deseja mesmo sair da plataforma?</DialogDescription>
                 </DialogHeader>
                 <DialogFooter className="flex flex-row gap-3">
                   <DialogClose asChild>
@@ -178,11 +133,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                     </Button>
                   </DialogClose>
                   <DialogClose asChild>
-                    <Button
-                      variant="destructive"
-                      className="flex-1"
-                      onClick={handleLogoutClick}
-                    >
+                    <Button variant="destructive" className="flex-1" onClick={handleLogoutClick}>
                       Sair
                     </Button>
                   </DialogClose>

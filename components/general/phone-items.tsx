@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { SmartphoneIcon } from "lucide-react";
-import { Button } from "./ui/button";
-import { toast } from "sonner";
+import { SmartphoneIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 interface PhoneItemsProps {
   phone: string;
@@ -11,7 +11,7 @@ interface PhoneItemsProps {
 const PhoneItems = ({ phone }: PhoneItemsProps) => {
   const handleCopyToClipboard = (phoneNumber: string) => {
     navigator.clipboard.writeText(phoneNumber);
-    toast.success("Telefone copiado para a área de transferência!");
+    toast.success('Telefone copiado para a área de transferência!');
   };
 
   return (
@@ -21,11 +21,7 @@ const PhoneItems = ({ phone }: PhoneItemsProps) => {
         <p>{phone}</p>
       </div>
 
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => handleCopyToClipboard(phone)}
-      >
+      <Button variant="outline" size="sm" onClick={() => handleCopyToClipboard(phone)}>
         Copiar
       </Button>
     </div>

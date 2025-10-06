@@ -1,16 +1,17 @@
-import PhoneItems from "@/components/phone-items";
-import ServiceItem from "@/components/service-item";
-import Sidebar from "@/components/sidebar";
-import { Button } from "@/components/ui/button";
+import PhoneItems from '@/components/general/phone-items';
+import ServiceItem from '@/components/barbershop/service-item';
+import Sidebar from '@/components/layout/sidebar';
+import { Button } from '@/components/ui/button';
 import {
   getBarbershopById,
   getBarbershopRating,
   getBarbershopRatingCount,
-} from "@/data/get-barbershops";
-import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+} from '@/data/get-barbershops';
+import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import HeaderBarbershop from '@/components/barbershop/header-barbershop';
 
 interface BarbershopPageProps {
   params: Promise<{
@@ -40,6 +41,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
 
   return (
     <div>
+      <HeaderBarbershop />
       <div className="relative h-[250px] w-full">
         <Image
           src={barbershopWithSerializablePrices.imageURL}
@@ -49,32 +51,21 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           priority
         />
 
-        <Button
-          variant="secondary"
-          className="absolute top-4 left-4"
-          size="icon"
-          asChild
-        >
-          <Link href={"/"}>
+        <Button variant="secondary" className="absolute top-4 left-4 lg:hidden" size="icon" asChild>
+          <Link href={'/'}>
             <ChevronLeftIcon />
           </Link>
         </Button>
 
         <Sidebar>
-          <Button
-            variant="secondary"
-            size="icon"
-            className="absolute top-4 right-4"
-          >
+          <Button variant="secondary" size="icon" className="absolute top-4 right-4">
             <MenuIcon className="size-5" />
           </Button>
         </Sidebar>
       </div>
 
       <div className="border-b border-solid p-5">
-        <h1 className="mb-3 text-xl font-bold">
-          {barbershopWithSerializablePrices.name}
-        </h1>
+        <h1 className="mb-3 text-xl font-bold">{barbershopWithSerializablePrices.name}</h1>
         <div className="mb-2 flex items-center gap-2">
           <MapPinIcon className="text-primary" size={18} />
           <p className="text-sm">{barbershopWithSerializablePrices.address}</p>
@@ -84,20 +75,17 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           <p className="text-sm">
             {rating ? (
               <>
-                {rating} ({ratingCount}{" "}
-                {ratingCount === 1 ? "avaliação" : "avaliações"})
+                {rating} ({ratingCount} {ratingCount === 1 ? 'avaliação' : 'avaliações'})
               </>
             ) : (
-              "Sem Avaliação"
+              'Sem Avaliação'
             )}
           </p>
         </div>
       </div>
       <div className="space-y-3 border-b border-solid p-5">
         <h2 className="text-xs font-bold text-gray-400 uppercase">Sobre nós</h2>
-        <p className="text-justify text-sm">
-          {barbershopWithSerializablePrices.description}
-        </p>
+        <p className="text-justify text-sm">{barbershopWithSerializablePrices.description}</p>
       </div>
       <div className="space-y-3 border-b border-solid p-5">
         <h2 className="text-xs font-bold text-gray-400 uppercase">Serviços</h2>

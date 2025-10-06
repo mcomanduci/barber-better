@@ -1,4 +1,4 @@
-import db from "@/lib/prisma";
+import db from '@/lib/prisma';
 
 export const getBarbershops = async () => {
   return await db.barbershop.findMany({});
@@ -7,9 +7,21 @@ export const getBarbershops = async () => {
 export const getPopularBarbershops = async () => {
   return await db.barbershop.findMany({
     orderBy: {
-      name: "desc",
+      name: 'desc',
     },
   });
+};
+
+export const getMostVisitedBarbershops = async () => {
+  return await db.barbershop.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+};
+
+export const getBetterRatedBarbershops = async () => {
+  return await db.barbershop.findMany({});
 };
 
 export const searchBarbershops = async (
@@ -23,7 +35,7 @@ export const searchBarbershops = async (
           ? {
               name: {
                 contains: title,
-                mode: "insensitive",
+                mode: 'insensitive',
               },
             }
           : {},
@@ -33,7 +45,7 @@ export const searchBarbershops = async (
                 some: {
                   name: {
                     contains: service,
-                    mode: "insensitive",
+                    mode: 'insensitive',
                   },
                 },
               },
@@ -70,10 +82,7 @@ export const getBarbershopRating = async (barbershopId: string) => {
 
   if (!ratings || ratings.length === 0) return null;
 
-  const totalRating = ratings.reduce(
-    (acc, curr) => acc + (curr.rating || 0),
-    0,
-  );
+  const totalRating = ratings.reduce((acc, curr) => acc + (curr.rating || 0), 0);
   const averageRating = totalRating / ratings.length;
   return averageRating.toFixed(1);
 };

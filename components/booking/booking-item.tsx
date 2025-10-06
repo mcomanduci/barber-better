@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Card, CardContent } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Prisma } from "@prisma/client";
-import { format, isFuture } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import React, { useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Prisma } from '@prisma/client';
+import { format, isFuture } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import {
   Sheet,
   SheetClose,
@@ -15,14 +15,14 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "./ui/sheet";
-import Image from "next/image";
-import BookingSummary from "./booking-summary";
-import { Button } from "./ui/button";
-import { deleteBooking } from "@/actions/delete-booking";
-import { toast } from "sonner";
-import DialogCancelBooking from "./dialog-cancel-booking";
-import DialogRating from "./dialog-rating";
+} from '@/components/ui/sheet';
+import Image from 'next/image';
+import BookingSummary from '@/components/booking/booking-summary';
+import { Button } from '@/components/ui/button';
+import { deleteBooking } from '@/actions/delete-booking';
+import { toast } from 'sonner';
+import DialogCancelBooking from '@/components/general/dialog-cancel-booking';
+import DialogRating from '@/components/general/dialog-rating';
 
 // Custom type with serialized price
 type BookingWithSerializedPrice = Omit<
@@ -33,7 +33,7 @@ type BookingWithSerializedPrice = Omit<
       };
     };
   }>,
-  "service"
+  'service'
 > & {
   service: Omit<
     Prisma.BookingGetPayload<{
@@ -42,8 +42,8 @@ type BookingWithSerializedPrice = Omit<
           include: { barbershop: true };
         };
       };
-    }>["service"],
-    "price"
+    }>['service'],
+    'price'
   > & {
     price: number;
   };
@@ -61,10 +61,10 @@ const BookingItem = ({ booking }: BookingItemProps) => {
     try {
       deleteBooking(booking.id);
       setIsSheetOpen(false);
-      toast.success("Reserva cancelada com sucesso!");
+      toast.success('Reserva cancelada com sucesso!');
     } catch (error) {
       console.error(error);
-      toast.error("Erro ao cancelar a reserva.");
+      toast.error('Erro ao cancelar a reserva.');
     }
   };
   const handleSheetOpenChange = (isOpen: boolean) => {
@@ -79,45 +79,30 @@ const BookingItem = ({ booking }: BookingItemProps) => {
               <div className="flex flex-col gap-2 py-5 pl-5">
                 <Badge
                   className="w-fit rounded-2xl"
-                  variant={isConfirmed ? "default" : "secondary"}
+                  variant={isConfirmed ? 'default' : 'secondary'}
                 >
-                  {isConfirmed ? "Confirmado" : "Finalizado"}
+                  {isConfirmed ? 'Confirmado' : 'Finalizado'}
                 </Badge>
-                <h3 className="text-left font-semibold">
-                  {booking.service.name}
-                </h3>
+                <h3 className="text-left font-semibold">{booking.service.name}</h3>
                 <div className="flex items-center gap-2">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage
-                      src={barbershop.imageURL}
-                      alt="Barbeiro"
-                      width={32}
-                      height={32}
-                    />
+                    <AvatarImage src={barbershop.imageURL} alt="Barbeiro" width={32} height={32} />
                     <AvatarFallback>BF</AvatarFallback>
                   </Avatar>
                   <p className="text-sm">{barbershop.name}</p>
                 </div>
               </div>
               <div className="flex max-w-[110px] min-w-[110px] flex-col items-center justify-center border-l-2 border-solid px-5">
-                <p className="text-sm">
-                  {format(booking.date, "MMMM", { locale: ptBR })}
-                </p>
-                <p className="text-2xl">
-                  {format(booking.date, "dd", { locale: ptBR })}
-                </p>
-                <p className="text-sm">
-                  {format(booking.date, "HH:mm", { locale: ptBR })}
-                </p>
+                <p className="text-sm">{format(booking.date, 'MMMM', { locale: ptBR })}</p>
+                <p className="text-2xl">{format(booking.date, 'dd', { locale: ptBR })}</p>
+                <p className="text-sm">{format(booking.date, 'HH:mm', { locale: ptBR })}</p>
               </div>
             </CardContent>
           </Card>
         </SheetTrigger>
         <SheetContent className="min-w-[350px] gap-0 pt-0 sm:min-w-[500px]">
           <SheetHeader className="border-b border-solid px-5 py-5">
-            <SheetTitle className="text-left">
-              Informações da Reserva
-            </SheetTitle>
+            <SheetTitle className="text-left">Informações da Reserva</SheetTitle>
           </SheetHeader>
           <div className="relative flex h-[180px] w-full items-end px-5">
             <Image
@@ -147,18 +132,15 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           </div>
 
           <div className="p-5">
-            <Badge
-              className="w-fit rounded-2xl"
-              variant={isConfirmed ? "default" : "secondary"}
-            >
-              {isConfirmed ? "Confirmado" : "Finalizado"}
+            <Badge className="w-fit rounded-2xl" variant={isConfirmed ? 'default' : 'secondary'}>
+              {isConfirmed ? 'Confirmado' : 'Finalizado'}
             </Badge>
           </div>
           <div className="border-t border-solid px-5 py-5">
             <BookingSummary
               service={booking.service}
               selectedDay={booking.date}
-              selectedTime={format(booking.date, "HH:mm", { locale: ptBR })}
+              selectedTime={format(booking.date, 'HH:mm', { locale: ptBR })}
               barbershop={barbershop}
             />
           </div>
@@ -169,16 +151,9 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                   Voltar
                 </Button>
               </SheetClose>
-              {isConfirmed && (
-                <DialogCancelBooking
-                  handleCancelBooking={handleCancelBooking}
-                />
-              )}
+              {isConfirmed && <DialogCancelBooking handleCancelBooking={handleCancelBooking} />}
               {!isConfirmed && (
-                <DialogRating
-                  bookingId={booking.id}
-                  isRated={booking.rating !== null}
-                />
+                <DialogRating bookingId={booking.id} isRated={booking.rating !== null} />
               )}
             </div>
           </SheetFooter>

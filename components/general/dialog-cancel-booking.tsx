@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Dialog,
   DialogClose,
@@ -8,14 +8,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { Button } from "./ui/button";
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
-const DialogCancelBooking = ({
-  handleCancelBooking,
-}: {
-  handleCancelBooking: () => void;
-}) => {
+const DialogCancelBooking = ({ handleCancelBooking }: { handleCancelBooking: () => void }) => {
   return (
     <Dialog>
       <DialogTrigger className="w-full" asChild>
@@ -26,9 +22,7 @@ const DialogCancelBooking = ({
       <DialogContent className="w-[90%] !max-w-[480px]">
         <DialogHeader className="!text-center">
           <DialogTitle>Cancelar Reserva</DialogTitle>
-          <DialogDescription>
-            Tem certeza que deseja cancelar esse agendamento?
-          </DialogDescription>
+          <DialogDescription>Tem certeza que deseja cancelar esse agendamento?</DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex flex-row gap-3">
           <DialogClose asChild>
@@ -37,11 +31,7 @@ const DialogCancelBooking = ({
             </Button>
           </DialogClose>
           <DialogClose asChild>
-            <Button
-              variant="destructive"
-              onClick={handleCancelBooking}
-              className="flex-1"
-            >
+            <Button variant="destructive" onClick={handleCancelBooking} className="flex-1">
               Confirmar
             </Button>
           </DialogClose>

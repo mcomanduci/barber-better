@@ -1,4 +1,3 @@
-import Header from '@/components/header';
 import React from 'react';
 import { getCurrentUserOptional } from '@/server/users';
 import { Button } from '@/components/ui/button';
@@ -6,10 +5,11 @@ import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
 import dynamicImport from 'next/dynamic';
 import { getConfirmedBookings, getConcludedBookings } from '@/data/get-bookings';
+import Header from '@/components/layout/header';
 
 export const dynamic = 'force-dynamic';
 
-const BookingItem = dynamicImport(() => import('@/components/booking-item'), {
+const BookingItem = dynamicImport(() => import('@/components/booking/booking-item'), {
   loading: () => <Skeleton className="h-6 w-6" />,
 });
 
@@ -20,7 +20,7 @@ const Page = async () => {
     return (
       <>
         <Header />
-        <div className="flex flex-col items-center justify-center space-y-4 p-5">
+        <div className="flex h-[50%] flex-col items-center justify-center space-y-4 p-5">
           <h1 className="text-xl font-bold">Agendamentos</h1>
           <p className="text-center text-gray-600">
             Você precisa estar logado para ver seus agendamentos.
@@ -44,7 +44,7 @@ const Page = async () => {
         <div className="space-y-4">
           {confirmedBookings.length > 0 && (
             <>
-              <h3 className="text-xs font-bold uppercase text-gray-400">Confirmados</h3>
+              <h3 className="text-xs font-bold text-gray-400 uppercase">Confirmados</h3>
               {confirmedBookings.map((booking) => (
                 <BookingItem key={booking.id} booking={booking} />
               ))}
@@ -53,7 +53,7 @@ const Page = async () => {
 
           {concludedBookings.length > 0 && (
             <>
-              <h3 className="text-xs font-bold uppercase text-gray-400">Finalizados</h3>
+              <h3 className="text-xs font-bold text-gray-400 uppercase">Finalizados</h3>
               {concludedBookings.map((booking) => (
                 <BookingItem key={booking.id} booking={booking} />
               ))}
