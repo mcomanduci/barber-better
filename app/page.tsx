@@ -38,7 +38,7 @@ const Home = async () => {
         <div className="relative -mx-5 flex flex-col gap-6 px-5 md:flex-row md:items-stretch md:justify-between md:py-8 lg:gap-10 xl:gap-30">
           <div
             className="absolute inset-0 right-[50%] left-[50%] -mr-[50vw] -ml-[50vw] hidden w-screen bg-cover bg-center bg-no-repeat opacity-15 grayscale md:block"
-            style={{ backgroundImage: 'url(/barbercut.png)' }}
+            style={{ backgroundImage: 'url(/barbercut.webp)' }}
           />
           <div className="relative z-10 flex flex-1 flex-col justify-between md:max-w-[460px]">
             <div className="pt-4">
