@@ -1,12 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Prisma } from '@prisma/client';
 import { format, isFuture } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { toast } from 'sonner';
+
+import { deleteBooking } from '@/actions/delete-booking';
+import BookingSummary from '@/components/booking/booking-summary';
+import DialogCancelBooking from '@/components/general/dialog-cancel-booking';
+import DialogRating from '@/components/general/dialog-rating';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Sheet,
   SheetClose,
@@ -16,13 +24,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import Image from 'next/image';
-import BookingSummary from '@/components/booking/booking-summary';
-import { Button } from '@/components/ui/button';
-import { deleteBooking } from '@/actions/delete-booking';
-import { toast } from 'sonner';
-import DialogCancelBooking from '@/components/general/dialog-cancel-booking';
-import DialogRating from '@/components/general/dialog-rating';
 
 // Custom type with serialized price
 type BookingWithSerializedPrice = Omit<

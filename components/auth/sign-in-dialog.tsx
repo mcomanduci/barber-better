@@ -1,5 +1,9 @@
 'use client';
+import { LogInIcon } from 'lucide-react';
+import Image from 'next/image';
 import React from 'react';
+
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -8,10 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { signIn } from '@/lib/auth-client';
-import Image from 'next/image';
-import { LogInIcon } from 'lucide-react';
 
 interface SignInDialogProps {
   onSignInStart?: () => void;

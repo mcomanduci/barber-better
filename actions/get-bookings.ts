@@ -1,7 +1,8 @@
-"use server";
+'use server';
 
-import { endOfDay, startOfDay } from "date-fns";
-import db from "@/lib/prisma";
+import { endOfDay, startOfDay } from 'date-fns';
+
+import db from '@/lib/prisma';
 
 interface GetBookingsProps {
   serviceId: string;

@@ -8,11 +8,8 @@
       "jsx": true
     }
   },
-  "plugins": ["@typescript-eslint"],
-  "extends": [
-    "next/core-web-vitals",
-    "next/typescript"
-  ],
+  "plugins": ["@typescript-eslint", "simple-import-sort"],
+  "extends": ["next/core-web-vitals", "next/typescript"],
   "settings": {
     "react": {
       "version": "detect"
@@ -20,7 +17,9 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   },
   "ignorePatterns": [
     "node_modules",

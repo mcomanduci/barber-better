@@ -1,20 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
 import { LogOutIcon } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import Link from 'next/link';
 import Image from 'next/image';
-import { quickSearchOptions } from '@/constants/search';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+
+import SignInDialog from '@/components/auth/sign-in-dialog';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogClose,
@@ -25,9 +18,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { Skeleton } from '@/components/ui/skeleton';
+import { quickSearchOptions } from '@/constants/search';
 import { authClient, signOut } from '@/lib/auth-client';
-import SignInDialog from '@/components/auth/sign-in-dialog';
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const { data, isPending } = authClient.useSession();

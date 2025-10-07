@@ -1,10 +1,13 @@
-import { Card, CardContent } from '@/components/ui/card';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
 import { ChevronDownIcon, MenuIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { Skeleton } from '@/components/ui/skeleton';
+import Image from 'next/image';
 import Link from 'next/link';
+
+import SignInDialog from '@/components/auth/sign-in-dialog';
+import SignOutDialog from '@/components/auth/sign-out-dialog';
+import SearchHeader from '@/components/general/search-header';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,11 +16,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Skeleton } from '@/components/ui/skeleton';
 import { getCurrentUserOptional } from '@/server/users';
+
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import SignOutDialog from '@/components/auth/sign-out-dialog';
-import SignInDialog from '@/components/auth/sign-in-dialog';
-import SearchHeader from '@/components/general/search-header';
 
 const Sidebar = dynamic(() => import('@/components/layout/sidebar'), {
   loading: () => <Skeleton className="h-10 w-10" />,

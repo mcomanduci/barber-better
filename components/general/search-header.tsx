@@ -1,14 +1,15 @@
 'use client';
 
-import React from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { SearchIcon } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+
+import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { searchBarbershopsSchema, SearchBarbershopsInput } from '@/lib/validations';
+import { Input } from '@/components/ui/input';
+import { SearchBarbershopsInput, searchBarbershopsSchema } from '@/lib/validations';
 
 const SearchHeader = () => {
   const pathname = usePathname();

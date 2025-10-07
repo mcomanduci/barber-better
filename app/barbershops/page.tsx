@@ -1,8 +1,9 @@
 import React from 'react';
+
 import BarbershopItem from '@/components/barbershop/barbershop-item';
 import Search from '@/components/general/search';
-import { searchBarbershops } from '@/data/get-barbershops';
 import Header from '@/components/layout/header';
+import { searchBarbershops } from '@/data/get-barbershops';
 
 interface BarbershopPageProps {
   searchParams: Promise<{ title?: string; service?: string }>;

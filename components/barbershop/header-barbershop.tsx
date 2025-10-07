@@ -1,8 +1,12 @@
-import { Card, CardContent } from '@/components/ui/card';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
 import { ChevronDownIcon } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
+
+import SignInDialog from '@/components/auth/sign-in-dialog';
+import SignOutDialog from '@/components/auth/sign-out-dialog';
+import SearchHeader from '@/components/general/search-header';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,10 +16,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { getCurrentUserOptional } from '@/server/users';
+
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import SignOutDialog from '@/components/auth/sign-out-dialog';
-import SignInDialog from '@/components/auth/sign-in-dialog';
-import SearchHeader from '@/components/general/search-header';
 
 const HeaderBarbershop = async () => {
   const session = await getCurrentUserOptional();

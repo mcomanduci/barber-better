@@ -1,5 +1,7 @@
 'use client';
 import React from 'react';
+
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogClose,
@@ -10,9 +12,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { signOut } from '@/lib/auth-client';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { signOut } from '@/lib/auth-client';
 
 const SignOutDialog = () => {
   const handleLogoutClick = () => signOut();

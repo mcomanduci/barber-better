@@ -1,10 +1,18 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { ptBR } from 'date-fns/locale';
-import { Button } from '@/components/ui/button';
 import { Barbershop, BarbershopService, Booking } from '@prisma/client';
+import { set, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
+import { ptBR } from 'date-fns/locale';
+import React, { useEffect } from 'react';
+import { toast } from 'sonner';
+
+import { createBooking } from '@/actions/create-booking';
+import { getBookings } from '@/actions/get-bookings';
+import BookingSummary from '@/components/booking/booking-summary';
+import DialogConfirmation from '@/components/general/dialog-confirmation';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
   SheetClose,
   SheetContent,
@@ -12,15 +20,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
-import { createBooking } from '@/actions/create-booking';
-import { authClient } from '@/lib/auth-client';
-import { set, startOfDay } from 'date-fns';
-import { toast } from 'sonner';
-import { getBookings } from '@/actions/get-bookings';
-import { Calendar } from '@/components/ui/calendar';
 import { Skeleton } from '@/components/ui/skeleton';
-import BookingSummary from '@/components/booking/booking-summary';
-import DialogConfirmation from '@/components/general/dialog-confirmation';
+import { authClient } from '@/lib/auth-client';
 import { createBookingSchema } from '@/lib/validations';
 
 // Create a type for serialized service with number price instead of Decimal

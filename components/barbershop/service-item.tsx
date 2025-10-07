@@ -1,16 +1,17 @@
 'use client';
 
 import { Barbershop, BarbershopService } from '@prisma/client';
-import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Sheet } from '@/components/ui/sheet';
 import dynamic from 'next/dynamic';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { authClient } from '@/lib/auth-client';
+import Image from 'next/image';
+import React from 'react';
+
 import SignInDialog from '@/components/auth/sign-in-dialog';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Sheet } from '@/components/ui/sheet';
 import { Skeleton } from '@/components/ui/skeleton';
+import { authClient } from '@/lib/auth-client';
 
 // Create a type for serialized service with number price instead of Decimal
 type ServiceWithNumberPrice = Omit<BarbershopService, 'price'> & {

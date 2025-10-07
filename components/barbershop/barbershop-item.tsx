@@ -1,11 +1,11 @@
 import { Barbershop } from '@prisma/client';
-import { Card, CardContent } from '@/components/ui/card';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
 import { StarIcon } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-
+import Image from 'next/image';
 import Link from 'next/link';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { getBarbershopRating } from '@/data/get-barbershops';
 
 interface BarbershopItemProps {

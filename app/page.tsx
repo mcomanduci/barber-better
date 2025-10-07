@@ -1,21 +1,22 @@
-import Header from '@/components/layout/header';
-import Image from 'next/image';
-import { quickSearchOptions } from '@/constants/search';
-import Search from '@/components/general/search';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { getCurrentUser } from '@/lib/server';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import BarbershopsMainPage from '@/components/barbershop/barbeshops-mainpage';
+import Search from '@/components/general/search';
+import Header from '@/components/layout/header';
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getConfirmedBookings } from '@/data/get-bookings';
+import { quickSearchOptions } from '@/constants/search';
 import {
   getBarbershops,
   getMostVisitedBarbershops,
   getPopularBarbershops,
 } from '@/data/get-barbershops';
-import BarbershopsMainPage from '@/components/barbershop/barbeshops-mainpage';
+import { getConfirmedBookings } from '@/data/get-bookings';
+import { getCurrentUser } from '@/lib/server';
 
 const BookingItem = dynamic(() => import('@/components/booking/booking-item'), {
   loading: () => <Skeleton className="h-[150px] w-full" />,
@@ -55,7 +56,12 @@ const Home = async () => {
               {quickSearchOptions.map((option) => (
                 <Button key={option.title} className="gap-2" variant="secondary" asChild>
                   <Link href={`/barbershops?service=${option.title}`}>
-                    <Image src={option.imageURL} alt={option.title} width={16} height={16} />
+                    <Image
+                      src={option.imageURL}
+                      alt={`Icon ${option.title}`}
+                      width={16}
+                      height={16}
+                    />
                     {option.title}
                   </Link>
                 </Button>

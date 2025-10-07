@@ -1,5 +1,11 @@
-import PhoneItems from '@/components/general/phone-items';
+import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+
+import HeaderBarbershop from '@/components/barbershop/header-barbershop';
 import ServiceItem from '@/components/barbershop/service-item';
+import PhoneItems from '@/components/general/phone-items';
 import Sidebar from '@/components/layout/sidebar';
 import { Button } from '@/components/ui/button';
 import {
@@ -7,11 +13,6 @@ import {
   getBarbershopRating,
   getBarbershopRatingCount,
 } from '@/data/get-barbershops';
-import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import HeaderBarbershop from '@/components/barbershop/header-barbershop';
 
 interface BarbershopPageProps {
   params: Promise<{

@@ -1,7 +1,7 @@
-"use server";
+'use server';
 
-import { getCurrentUserOptional } from "@/server/users";
-import db from "@/lib/prisma";
+import db from '@/lib/prisma';
+import { getCurrentUserOptional } from '@/server/users';
 
 export const getConcludedBookings = async () => {
   const session = await getCurrentUserOptional();
@@ -15,7 +15,7 @@ export const getConcludedBookings = async () => {
       },
     },
     orderBy: {
-      date: "desc",
+      date: 'desc',
     },
     include: {
       service: {
@@ -47,7 +47,7 @@ export const getConfirmedBookings = async () => {
       },
     },
     orderBy: {
-      date: "asc",
+      date: 'asc',
     },
     include: {
       service: {

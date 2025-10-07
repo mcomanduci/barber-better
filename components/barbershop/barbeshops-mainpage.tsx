@@ -1,4 +1,7 @@
+import { Barbershop } from '@prisma/client';
 import React from 'react';
+
+import BarbershopItem from '@/components/barbershop/barbershop-item';
 import {
   Carousel,
   CarouselContent,
@@ -6,8 +9,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import BarbershopItem from '@/components/barbershop/barbershop-item';
-import { Barbershop } from '@prisma/client';
 
 const BarbershopsMainPage = ({
   barbershops,

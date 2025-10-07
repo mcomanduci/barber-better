@@ -1,12 +1,13 @@
+import './globals.css';
+
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
-import './globals.css';
 import { Toaster } from 'sonner';
-import { Footer } from '@/components/layout/footer';
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Analytics } from '@vercel/analytics/next';
+
 import { AuthSyncProvider } from '@/components/auth/auth-sync-provider';
-import Header from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
 
 const nunito = Nunito({
   subsets: ['latin'],

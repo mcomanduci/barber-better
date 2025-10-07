@@ -1,6 +1,11 @@
 'use client';
 
+import { Star } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+
+import { rateBooking } from '@/actions/create-rating';
+import DialogConfirmation from '@/components/general/dialog-confirmation';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogClose,
@@ -11,10 +16,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Star } from 'lucide-react';
-import DialogConfirmation from '@/components/general/dialog-confirmation';
-import { rateBooking } from '@/actions/create-rating';
 import { getBookingRating } from '@/data/get-bookings';
 
 const DialogRating = ({ bookingId, isRated }: { bookingId: string; isRated: boolean }) => {

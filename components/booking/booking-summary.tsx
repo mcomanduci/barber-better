@@ -1,9 +1,10 @@
-import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Barbershop } from '@prisma/client';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import React from 'react';
+
 import PhoneItems from '@/components/general/phone-items';
-import { Barbershop } from '@prisma/client';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface ServiceWithNumberPrice {
   name: string;

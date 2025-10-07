@@ -1,11 +1,12 @@
-import React from 'react';
-import { getCurrentUserOptional } from '@/server/users';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { Skeleton } from '@/components/ui/skeleton';
 import dynamicImport from 'next/dynamic';
-import { getConfirmedBookings, getConcludedBookings } from '@/data/get-bookings';
+import Link from 'next/link';
+import React from 'react';
+
 import Header from '@/components/layout/header';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { getConcludedBookings, getConfirmedBookings } from '@/data/get-bookings';
+import { getCurrentUserOptional } from '@/server/users';
 
 export const dynamic = 'force-dynamic';
 

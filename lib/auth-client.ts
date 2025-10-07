@@ -1,4 +1,4 @@
-import { createAuthClient } from "better-auth/react";
+import { createAuthClient } from 'better-auth/react';
 
 export const authClient = createAuthClient();
 
@@ -22,7 +22,7 @@ export const signOut = async () => {
     // Refresh the page after successful sign out
     window.location.reload();
   } catch (error) {
-    console.error("Sign-out failed:", error);
+    console.error('Sign-out failed:', error);
     // Still refresh even if there's an error to clear any stale state
     window.location.reload();
   }

@@ -1,14 +1,16 @@
 'use client';
 
-import React from 'react';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { SearchIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+
+import { SearchBarbershopsInput, searchBarbershopsSchema } from '@/lib/validations';
+
+import { Button } from '../ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form';
-import { searchBarbershopsSchema, SearchBarbershopsInput } from '@/lib/validations';
+import { Input } from '../ui/input';
 
 const Search = () => {
   const form = useForm<SearchBarbershopsInput>({
